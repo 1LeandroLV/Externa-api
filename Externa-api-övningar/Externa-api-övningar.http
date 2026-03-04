@@ -1,0 +1,6 @@
+@Externa_api_övningar_HostAddress = http://localhost:5217
+
+GET {{Externa_api_övningar_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
