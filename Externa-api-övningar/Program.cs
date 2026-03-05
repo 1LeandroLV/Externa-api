@@ -6,6 +6,11 @@ namespace Externa_api_övningar
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddHttpClient<services.ExternalApiClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/");
+                client.Timeout = TimeSpan.FromSeconds(10);
+            });
 
             // Add services to the container.
 
@@ -14,6 +19,11 @@ namespace Externa_api_övningar
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
+            app.MapGet("/Posts", async (Externa-Externa_api_övningar.services.ExternalApiClient externa) =>
+            {
+                var posts = await externa.GetPostsAsync(10);
+                return posts;
+            });
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
