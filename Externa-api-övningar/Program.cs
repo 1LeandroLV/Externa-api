@@ -1,3 +1,5 @@
+using Externa_api_övningar.Services;
+
 
 namespace Externa_api_övningar
 {
@@ -6,36 +8,38 @@ namespace Externa_api_övningar
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddHttpClient<services.ExternalApiClient>(client =>
+
+            builder.Services.AddHttpClient < ExternalApiClient> (client =>
             {
                 client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/");
                 client.Timeout = TimeSpan.FromSeconds(10);
             });
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
-            app.MapGet("/Posts", async (Externa-Externa_api_övningar.services.ExternalApiClient externa) =>
+
+            app.MapGet("/posts", async (ExternalApiClient externa) =>
             {
-                var posts = await externa.GetPostsAsync(10);
-                return posts;
+                try
+                {
+                    var posts = await externa.GetPostsAsync(10);
+                    return Results.Ok(posts);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
             });
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();

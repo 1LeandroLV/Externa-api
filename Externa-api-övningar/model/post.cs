@@ -5,13 +5,14 @@
 //2skapa model som matchar json
 //3deserialize json model
 
-namespace Externa_api_övningar.model
+namespace Externa_api_övningar.Models
+    
 {
-    public class post
+    public class Post
     {
         public int UserId { get; set; }
         public int Id { get; set; }
-       public string Title { get; set; }
+        public string Title { get; set; }
 
         public string body { get; set; }
 
