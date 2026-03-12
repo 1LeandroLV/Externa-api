@@ -14,7 +14,7 @@ namespace Externa_api_övningar.Models
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public string body { get; set; }
+        public string Body { get; set; }
 
     }
 }
